@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS USERS (
-    userid INT PRIMARY KEY auto_increment,
-    username VARCHAR(20),
-    salt VARCHAR,
-    password VARCHAR,
-    firstname VARCHAR(20),
-    lastname VARCHAR(20)
+  userid INT PRIMARY KEY auto_increment,
+  username VARCHAR(20),
+  salt VARCHAR,
+  password VARCHAR,
+  firstname VARCHAR(20),
+  lastname VARCHAR(20),
+  CONSTRAINT UC_Username UNIQUE (username)
 );
 
 CREATE TABLE IF NOT EXISTS NOTES (
@@ -22,7 +23,8 @@ CREATE TABLE IF NOT EXISTS FILES (
     filesize VARCHAR,
     userid INT,
     filedata BLOB,
-    foreign key (userid) references USERS(userid)
+    foreign key (userid) references USERS(userid),
+    CONSTRAINT UC_Filename UNIQUE (filename)
 );
 
 CREATE TABLE IF NOT EXISTS CREDENTIALS (

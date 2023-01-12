@@ -1,7 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
-import com.udacity.jwdnd.course1.cloudstorage.mappers.UserMapper;
-import com.udacity.jwdnd.course1.cloudstorage.models.User;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,7 +9,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 @Service
 public class AuthenticationService implements AuthenticationProvider {
   private UserMapper userMapper;
@@ -27,13 +26,13 @@ public class AuthenticationService implements AuthenticationProvider {
 
     User user = userMapper.getUser(username);
     if (user != null) {
-      String hashedPassword = user.getPassword();
       String encodedSalt = user.getSalt();
-      String hashedValue = hashService.getHashed(password, encodedSalt);
-      if (hashedValue.equals(hashedPassword)) {
+      String hashedPassword = hashService.getHashedValue(password, encodedSalt);
+      if (user.getPassword().equals(hashedPassword)) {
         return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
       }
     }
+
     return null;
   }
 

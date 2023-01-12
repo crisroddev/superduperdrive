@@ -1,17 +1,18 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
-import com.udacity.jwdnd.course1.cloudstorage.mappers.UserMapper;
-import com.udacity.jwdnd.course1.cloudstorage.models.User;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.SecretKeyFactory;
-import java.security.SecureRandom;
-import java.util.Base64;
 
 @Service
 public class UserService {
-  private UserMapper userMapper;
-  private HashService hashService;
+  private Logger logger = LoggerFactory.getLogger(UserService.class);
+
+  private final UserMapper userMapper;
+  private final HashService hashService;
 
   public UserService(UserMapper userMapper, HashService hashService) {
     this.userMapper = userMapper;
@@ -22,18 +23,34 @@ public class UserService {
     return userMapper.getUser(username) == null;
   }
 
-  public int createUser(User user){
-    SecureRandom secureRandom = new SecureRandom();
-    byte[] salt = new byte[16];
-    secureRandom.nextBytes(salt);
-    String encodedSalt = Base64.getEncoder().encodeToString(salt);
-    String hashedPassword = hashService.getHashed(user.getPassword(), encodedSalt);
-    return userMapper.insert(
-            new User(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPassword(), hashedPassword)
-    );
+  public int createUser(User user) {
+    String encodedSalt = hashService.generateSalt();
+    String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
+    int res = 0;
+    try {
+      User newUser = new User(
+              null, 
+              user.getUsername(), 
+              user.getFirstname(), 
+              user.getLastname(), 
+              encodedSalt, 
+              hashedPassword);
+      res = userMapper.insert(newUser);
+    }catch (DuplicateKeyException e) {
+      logger.error(e.getMessage());
+    }
+    return res;
   }
 
-  public User getUser(String username){
+  public User getUser(String username) {
     return userMapper.getUser(username);
+  }
+
+  public int deleteUser(User user) {
+    return userMapper.delete(user);
+  }
+
+  public int deleteAll(){
+    return userMapper.deleteAll();
   }
 }
