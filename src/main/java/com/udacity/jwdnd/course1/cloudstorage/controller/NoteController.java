@@ -30,8 +30,8 @@ public class NoteController {
     this.credentialService = credentialService;
   }
 
-  @PostMapping("/note-upload")
-  public String createNote(Authentication authentication, @ModelAttribute Note note, Model model) throws IOException {
+  @PostMapping()
+  public String editNote(Authentication authentication, @ModelAttribute Note note, Model model) throws IOException {
     String noteError = null;
     String noteUploadError = null;
     User curr = userService.getUser(authentication.getName());
@@ -43,6 +43,7 @@ public class NoteController {
       } catch (Exception e){
         noteError = e.toString();
         model.addAttribute("noteError", noteError);
+        System.out.println(noteError);
       }
     } else {
       try {
@@ -52,6 +53,7 @@ public class NoteController {
       }catch (Exception e){
         noteUploadError = e.toString();
         model.addAttribute("uploadError", noteUploadError);
+        System.out.println(noteUploadError);
       }
     }
     model.addAttribute("files", fileService.getFiles(curr));
