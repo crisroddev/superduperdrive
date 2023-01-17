@@ -31,11 +31,11 @@ public class HomeController {
   }
 
   @GetMapping
-  public String displayHome(Authentication authentication, Note note, Credential credential, File file, Model model) {
+  public String displayHome(Authentication authentication, Model model) {
     User curr = userService.getUser(authentication.getName());
     model.addAttribute(curr);
-//    model.addAttribute("files", fileService.getFiles(curr));
-//    model.addAttribute("notes", noteService.getNotes(curr));
+    model.addAttribute("files", fileService.getFiles(curr));
+    model.addAttribute("notes", noteService.getNotes(curr));
     model.addAttribute("credentials", credentialService.getAllCredentials(curr));
     return "home";
   }
