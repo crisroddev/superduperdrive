@@ -9,6 +9,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Controller
 public class CredentialController {
   private UserService userService;
   private CredentialService credentialService;
@@ -36,7 +38,7 @@ public class CredentialController {
 
     if(credential.getCredentialId() == null) {
       try {
-        credential.setUserId(curr.getUserid());
+        credential.setUserid(curr.getUserid());
         credentialService.createCredential(credential);
         model.addAttribute("credentialUploadSuccess", "Credential Uploaded");
       } catch (Exception e) {
@@ -62,13 +64,13 @@ public class CredentialController {
   public void decryptPassword(HttpServletResponse response, Authentication authentication, @ModelAttribute Credential credential) throws IOException {
     User curr = userService.getUser(authentication.getName());
     credential = credentialService.getCredential(credential.getCredentialId());
-    if(credential != null && credential.getUserId().intValue() == curr.getUserid().intValue()) {
+    if(credential != null && credential.getUserid().intValue() == curr.getUserid().intValue()) {
       String decrypted = credentialService.decryptPassword(credential);
       response.getWriter().println(decrypted);
     }
   }
 
-  @RequestMapping("/delete")
+  @RequestMapping("/credential-delete/{credentialId}")
   public String deleteCredential(Authentication authentication, @ModelAttribute Credential credential, Model model) throws IOException{
     String deleteError = null;
     User curr = userService.getUser(authentication.getName());

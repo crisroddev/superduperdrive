@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/notes")
 public class NoteController {
   private UserService userService;
   private NoteService noteService;
@@ -30,7 +29,7 @@ public class NoteController {
     this.credentialService = credentialService;
   }
 
-  @PostMapping()
+  @PostMapping("/note-upload")
   public String editNote(Authentication authentication, @ModelAttribute Note note, Model model) throws IOException {
     String noteError = null;
     String noteUploadError = null;
@@ -62,6 +61,7 @@ public class NoteController {
     return "home";
   }
 
+  @RequestMapping("/note-delete/{id}")
   public String deleteNote(Authentication authentication, @ModelAttribute Note note, Model model) throws IOException {
     String deleteError = null;
     User curr = userService.getUser(authentication.getName());

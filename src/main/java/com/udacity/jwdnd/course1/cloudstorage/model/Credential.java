@@ -8,7 +8,7 @@ public class Credential {
   private String url;
   private String username;
   private String password;
-  private Integer userId;
+  private Integer userid;
   private String key;
 
   public Credential() {
@@ -19,7 +19,7 @@ public class Credential {
     this.url = url;
     this.username = username;
     this.password = password;
-    this.userId = userId;
+    this.userid = userId;
     this.key = key;
   }
 }
