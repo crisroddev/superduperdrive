@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 @Mapper
 public interface CredentialMapper {
-  @Results(id = "credentialResultMap", value = {
-          @Result(property = "credentialId", column = "credentialid"),
-          @Result(property = "url", column = "url"),
-          @Result(property = "username", column = "username"),
-          @Result(property = "key", column = "key"),
-          @Result(property = "password", column = "password"),
-          @Result(property = "userid", column = "userid")
-  })
+//  @Results(id = "credentialResultMap", value = {
+//          @Result(property = "credentialId", column = "credentialid"),
+//          @Result(property = "url", column = "url"),
+//          @Result(property = "username", column = "username"),
+//          @Result(property = "key", column = "key"),
+//          @Result(property = "password", column = "password"),
+//          @Result(property = "userid", column = "userid")
+//  })
   @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}")
   ArrayList<Credential> getCredentials(User user);
 
-  @ResultMap("credentialResultMap")
+//  @ResultMap("credentialResultMap")
   @Select("SELECT * FROM CREDENTIALS WHERE credentialid = #{credentialId}")
   Credential getCredential(Integer credentialId);
 

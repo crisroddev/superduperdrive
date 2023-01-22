@@ -6,7 +6,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
-import org.apache.commons.lang3.StringEscapeUtils;
+//import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,20 +50,20 @@ public class FileController {
     return "home";
   }
 
-  @GetMapping("/download")
-  public void downloadFile(HttpServletResponse response, @ModelAttribute File file) throws IOException {
-    file = fileService.getFile(file.getFileId());
-    if(file != null) {
-      response.setContentType(file.getContentType());
-      response.setContentLength(Integer.valueOf(file.getSize()));
-      String key = "Content-Disposition";
-      String value = "attachment; filename=" + StringEscapeUtils.escapeHtml4(file.getName());
-      response.setHeader(key, value);
-      response
-              .getOutputStream()
-              .write(file.getData());
-    }
-  }
+//  @GetMapping("/download")
+//  public void downloadFile(HttpServletResponse response, @ModelAttribute File file) throws IOException {
+//    file = fileService.getFile(file.getFileId());
+//    if(file != null) {
+//      response.setContentType(file.getContentType());
+//      response.setContentLength(Integer.valueOf(file.getSize()));
+//      String key = "Content-Disposition";
+//      String value = "attachment; filename=" + StringEscapeUtils.escapeHtml4(file.getName());
+//      response.setHeader(key, value);
+//      response
+//              .getOutputStream()
+//              .write(file.getData());
+//    }
+//  }
 
   @PostMapping("/delete-file")
   public String deleteFile(Authentication authentication, @ModelAttribute File file, Model model) throws IOException{
