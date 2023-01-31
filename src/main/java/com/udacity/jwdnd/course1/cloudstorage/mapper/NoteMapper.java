@@ -8,12 +8,6 @@ import java.util.ArrayList;
 
 @Mapper
 public interface NoteMapper {
-//  @Results(id = "noteResultMap", value = {
-//          @Result(property = "noteId", column = "noteid"),
-//          @Result(property = "noteTitle", column = "notetitle"),
-//          @Result(property = "noteDescription", column = "notedescription"),
-//          @Result(property = "userid", column = "userid")
-//  })
   @Select("SELECT * FROM NOTES WHERE userid = #{userid}")
   ArrayList<Note> getNotes(User user);
 

@@ -83,7 +83,7 @@ public class NoteController {
       model.addAttribute("notes", noteService.getNotes(curr));
       model.addAttribute("credentials", credentialService.getAllCredentials(curr));
     }
-   
+
     return "home";
   }
 }
