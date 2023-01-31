@@ -51,9 +51,10 @@ public class NoteController {
       }
     } else {
       try {
-        noteService.updateNote(note);
-        model.addAttribute("updateSuccess", "Note Updated");
-
+        if(note.getNoteId() != null){
+          noteService.updateNote(note);
+          model.addAttribute("updateSuccess", "Note Updated");
+        }
       }catch (Exception e){
         noteUploadError = e.toString();
         model.addAttribute("uploadError", noteUploadError);
