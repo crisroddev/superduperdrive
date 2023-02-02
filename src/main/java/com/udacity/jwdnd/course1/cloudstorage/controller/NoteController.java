@@ -52,6 +52,7 @@ public class NoteController {
     } else {
       try {
         if(note.getNoteId() != null){
+          note.setUserid(curr.getUserid());
           noteService.updateNote(note);
           model.addAttribute("updateSuccess", "Note Updated");
         }
