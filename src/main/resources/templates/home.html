@@ -245,17 +245,6 @@
 
 <!--For opening the note modal-->
 <script type="text/javascript">
-    async function fetchDecodedPassword(credentialId) {
-        let port = location.port;
-        let response = await fetch(`http://localhost:${port}/decode-password?credentialId=${credentialId}`)
-        if (response.ok) {
-            let data = await response.json();
-            let result = JSON.parse(JSON.stringify(data));
-            return result.decrypt;
-        } else {
-            alert(response.status);
-        }
-    }
     // For opening the note modal
     function showNoteModal(noteId, noteTitle, noteDescription) {
         $('#note-id').val(noteId ? noteId : '');
@@ -263,16 +252,18 @@
         $('#note-description').val(noteDescription ? noteDescription : '');
         $('#noteModal').modal('show');
     }
-    // For opening the credentials modal
-    async function showCredentialModal(credentialId, url, username, password){
-        let decryptedPassword = ''
-        if(credentialId) {
-            decryptedPassword = await fetchDecodedPassword(credentialId);
-        }
+    function showCredentialModal(credentialId, url, username, password) {
         $('#credential-id').val(credentialId ? credentialId : '');
         $('#credential-url').val(url ? url : '');
         $('#credential-username').val(username ? username : '');
-        $('#credential-password').val(decryptedPassword ? decryptedPassword : '');
+        if (password) {
+            var ajx = new XMLHttpRequest();
+            ajx.open("GET", "/credentials/decrypt?credentialId=" + credentialId);
+            ajx.onload = function() {$('#credential-password').val(`${ajx.response}`);};
+            ajx.send();
+        } else {
+            $('#credential-password').val('');
+        }
         $('#credentialModal').modal('show');
     }
 </script>

@@ -193,6 +193,7 @@ class CloudStorageApplicationTests {
 	@DisplayName("Credentials Tests")
 	public void credentialTests() throws Exception{
 		credentialTestCreate();
+		credentialTestUpdate();
 		credentialTestDelete();
 	}
 
@@ -230,62 +231,41 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(credentialCreated);
 	}
 
-//	@Test
-//	@Order(6)
-//	@DisplayName("Credentials Test Edit")
-//	public void credentialTestEdit() throws InterruptedException {
-//		// Login
-//		driver.get("http://localhost:" + this.port + "/login");
-//		// Username
-//		driver.findElement(By.id("inputUsername")).sendKeys("test");
-//		// Password
-//		driver.findElement(By.id("inputPassword")).sendKeys("testTestTest");
-//		// Click Button
-//		driver.findElement(By.id("submit-button")).click();
-//
-//		// Credentials
-//		driver.findElement(By.id("nav-credentials-tab")).click();
-//		Thread.sleep(2000);
-//
-//		// Create Credential
-//		boolean credentialCreated = false;
-//		try {
-//			driver.findElement(By.id("new-credential")).click();
-//			Thread.sleep(2000);
-//			driver.findElement(By.id("credential-url")).sendKeys("http://test:test/newCredential");
-//			driver.findElement(By.id("credential-username")).sendKeys("test");
-//			driver.findElement(By.id("credential-password")).sendKeys("test");
-//			driver.findElement(By.id("credential-submit")).click();
-//
-//			Thread.sleep(4000);
-//
-//			credentialCreated = true;
-//		} catch(Exception e) {
-//			System.out.println(e.toString());
-//		}
-//
-//		// Delete Credential
-//		Thread.sleep(4000);
-//		boolean credentialDelete = false;
-//		try {
-//			WebElement credentials = driver.findElement(By.id("credentialTable"));
-//			List<WebElement> credentialToDelete = credentials.findElements(By.tagName("a"));
-//			for (WebElement deleteCredential : credentialToDelete) {
-//				deleteCredential.click();
-//				credentialDelete = true;
-//				break;
-//			}
-//
-//		} catch (Exception e){
-//			e.toString();
-//		}
-//
-//		Assertions.assertTrue(credentialCreated);
-//		Assertions.assertTrue(credentialDelete);
-//
-//
-//	}
+	public void credentialTestUpdate() throws InterruptedException {
+		// Login
+		driver.get("http://localhost:" + this.port + "/login");
+		// Username
+		driver.findElement(By.id("inputUsername")).sendKeys("test");
+		// Password
+		driver.findElement(By.id("inputPassword")).sendKeys("testTestTest");
+		// Click Button
+		driver.findElement(By.id("submit-button")).click();
 
+		Thread.sleep(2000);
+		try{
+			WebElement credentials = driver.findElement(By.id("credentialTable"));
+			List<WebElement> credentialList = credentials.findElements(By.tagName("td"));
+			boolean editCredential = false;
+			for (WebElement credentialRow : credentialList){
+				WebElement edit = credentialRow.findElement(By.tagName("button"));
+				edit.click();
+				if(!ObjectUtils.isEmpty(edit)){
+					Thread.sleep(2000);
+					driver.findElement(By.id("credential-url")).sendKeys("test/test");
+					driver.findElement(By.id("credential-username")).sendKeys("test");
+					driver.findElement(By.id("credential-password")).sendKeys("test");
+					driver.findElement(By.id("credential-submit")).click();
+					Thread.sleep(2000);
+					editCredential = true;
+					Assertions.assertEquals("Home", driver.getTitle());
+				}
+			}
+
+			Assertions.assertTrue(editCredential);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+	}
 
 	public void credentialTestDelete() throws InterruptedException {
 		// Login
