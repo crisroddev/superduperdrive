@@ -6,20 +6,26 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
-//import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Controller
 public class FileController {
   private NoteService noteService;
   private UserService userService;
   private FileService fileService;
   private CredentialService credentialService;
+
 
   public FileController(NoteService noteService, UserService userService, FileService fileService, CredentialService credentialService) {
     this.noteService = noteService;
@@ -50,20 +56,16 @@ public class FileController {
     return "home";
   }
 
-//  @GetMapping("/download")
-//  public void downloadFile(HttpServletResponse response, @ModelAttribute File file) throws IOException {
-//    file = fileService.getFile(file.getFileId());
-//    if(file != null) {
-//      response.setContentType(file.getContentType());
-//      response.setContentLength(Integer.valueOf(file.getSize()));
-//      String key = "Content-Disposition";
-//      String value = "attachment; filename=" + StringEscapeUtils.escapeHtml4(file.getName());
-//      response.setHeader(key, value);
-//      response
-//              .getOutputStream()
-//              .write(file.getData());
-//    }
-//  }
+  @RequestMapping("/file/{fileId}")
+  public ResponseEntity viewFile(@PathVariable("fileId") Integer fileId, Authentication authentication, Model model) throws IOException{
+    File file = fileService.getFile(fileId);
+    String contentType = file.getContentType();
+    String fileName = file.getName();
+    return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(contentType))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+            .body(file.getData());
+  }
 
   @PostMapping("/delete-file")
   public String deleteFile(Authentication authentication, @ModelAttribute File file, Model model) throws IOException{
