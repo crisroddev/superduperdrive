@@ -62,7 +62,7 @@ public class NoteController {
         System.out.println(noteUploadError);
       }
     }
-    model.addAttribute("files", fileService.getFiles(curr));
+    model.addAttribute("files", fileService.getFiles(curr.getUserid()));
     model.addAttribute("notes", noteService.getNotes(curr));
     model.addAttribute("credentials", credentialService.getAllCredentials(curr));
     return "home";
@@ -81,7 +81,7 @@ public class NoteController {
         deleteError = e.toString();
         model.addAttribute("deleteError", deleteError);
       }
-      model.addAttribute("files", fileService.getFiles(curr));
+      model.addAttribute("files", fileService.getFiles(curr.getUserid()));
       model.addAttribute("notes", noteService.getNotes(curr));
       model.addAttribute("credentials", credentialService.getAllCredentials(curr));
     }

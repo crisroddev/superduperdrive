@@ -56,8 +56,8 @@ public class FileService {
     return fileMapper.getFile(fileId);
   }
 
-  public ArrayList<File> getFiles(User user) {
-    return fileMapper.getFiles(user);
+  public ArrayList<File> getFiles(Integer userid) {
+    return fileMapper.getFiles(userid);
   }
 
   public boolean deleteFile(File file) {

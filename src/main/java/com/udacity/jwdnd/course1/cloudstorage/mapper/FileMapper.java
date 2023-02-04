@@ -8,18 +8,9 @@ import java.util.ArrayList;
 
 @Mapper
 public interface FileMapper {
-//  @Results(id = "superDuperFileResultMap", value = {
-//          @Result(property = "fileId", column = "fileId"),
-//          @Result(property = "name", column = "filename"),
-//          @Result(property = "contentType", column = "contenttype"),
-//          @Result(property = "size", column = "filesize"),
-//          @Result(property = "userid", column = "userid"),
-//          @Result(property = "data", column = "filedata")
-//  })
   @Select("SELECT * FROM FILES WHERE userid = #{userid}")
-  ArrayList<File> getFiles(User user);
+  ArrayList<File> getFiles(Integer userId);
 
-//  @ResultMap("superDuperFileResultMap")
   @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
   File getFile(Integer fileId);
 

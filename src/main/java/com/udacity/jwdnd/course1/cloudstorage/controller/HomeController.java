@@ -42,7 +42,7 @@ public class HomeController {
   public String displayHome(Authentication authentication, Model model) {
     User curr = userService.getUser(authentication.getName());
     model.addAttribute(curr);
-    model.addAttribute("files", fileService.getFiles(curr));
+    model.addAttribute("files", fileService.getFiles(curr.getUserid()));
     model.addAttribute("notes", noteService.getNotes(curr));
     model.addAttribute("credentials", credentialService.getAllCredentials(curr));
     return "home";
