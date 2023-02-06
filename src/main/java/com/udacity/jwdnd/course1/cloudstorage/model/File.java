@@ -1,71 +1,70 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
-import lombok.Data;
-
-@Data
 public class File {
-  private Integer fileId;
-  private String name;
-  private String contentType;
-  private String size;
-  private Integer userId;
-  private byte [] data;
+    private Integer fileId;
+    private String fileName;
+    private String contentType;
+    private Long fileSize;
+    private byte[] fileData;
+    private Integer userId;
 
-  public File(){}
-  public File(Integer fileId, String name, String contentType, String size, Integer userId, byte [] data) {
-    this.fileId = fileId;
-    this.name = name;
-    this.contentType = contentType;
-    this.size = size;
-    this.userId = userId;
-    this.data = data;
-  }
+    public File(String originalFilename, String contentType, long size, byte[] bytes, Integer userId) {
+    }
 
-  public Integer getFileId() {
-    return fileId;
-  }
+    public File(Integer fileId, String fileName, String contentType, Long fileSize, byte[] fileData, Integer userId) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.contentType = contentType;
+        this.fileSize = fileSize;
+        this.fileData = fileData;
+        this.userId = userId;
+    }
 
-  public void setFileId(Integer fileId) {
-    this.fileId = fileId;
-  }
+    public Integer getFileId() {
+        return fileId;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public void setFileId(Integer fileId) {
+        this.fileId = fileId;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getFileName() {
+        return fileName;
+    }
 
-  public String getContentType() {
-    return contentType;
-  }
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-  public void setContentType(String contentType) {
-    this.contentType = contentType;
-  }
+    public String getContentType() {
+        return contentType;
+    }
 
-  public String getSize() {
-    return size;
-  }
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
-  public void setSize(String size) {
-    this.size = size;
-  }
+    public Long getFileSize() {
+        return fileSize;
+    }
 
-  public Integer getUserId() {
-    return userId;
-  }
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
-  }
+    public byte[] getFileData() {
+        return fileData;
+    }
 
-  public byte[] getData() {
-    return data;
-  }
+    public void setFileData(byte[] fileData) {
+        this.fileData = fileData;
+    }
 
-  public void setData(byte[] data) {
-    this.data = data;
-  }
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }

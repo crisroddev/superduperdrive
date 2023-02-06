@@ -1,35 +1,26 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
-import com.udacity.jwdnd.course1.cloudstorage.model.User;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.util.List;
 
 @Mapper
 public interface FileMapper {
-  @Select("SELECT * FROM FILES WHERE userid = #{userid}")
-  ArrayList<File> getFiles(Integer userId);
+    @Select("INSERT INTO FILE (filename, contenttype, filesize, userid, filedata) VALUES " +
+            "(#{file.fileName}, #{file.contentType}, #{file.fileSize}, #{file.userId}, #{file.fileData})")
+    Integer save(@Param("file")File file);
 
-  @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
-  File getFile(Integer fileId);
+    @Select("SELECT * FROM FILE WHERE userid = #{userId}")
+    List<File> findFilesByUserId(@Param("userId") Integer userId);
 
-  @Select("SELECT COUNT(*) FROM FILES WHERE userid = #{userId} and filename = #{name}")
-  int countFilesByFilename(File file);
+    @Delete("DELETE FROM FILE WHERE fileid = #{fileId}")
+    void deleteById(@Param("fileId") Integer fileId);
 
-  @Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) VALUES (#{name}, #{contentType}, #{size}, #{userid}, #{data})")
-  @Options(useGeneratedKeys = true, keyProperty = "fileId")
-  int insert(File file);
-
-  @Update("UPDATE FILES SET filename = #{name}, contenttype = #{contentType}, filesize = #{size}, filedata = #{data} where fileId = #{fileId}")
-  int update(File file);
-
-  @Delete("DELETE FILES WHERE fileId = #{fileId}")
-  int deleteFile(Integer fileId);
-
-  @Delete("DELETE FILES WHERE userid = #{userid}")
-  int deleteFiles(User user);
-
-  @Delete("DELETE FILES")
-  int deleteAll();
+    @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
+    File findById(@Param("fileId") Integer fileId);
 }

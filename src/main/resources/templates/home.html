@@ -48,7 +48,7 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
                 <div id="file-success-msg" th:if="${fileUploadSuccess}" th:text="${fileUploadSuccess}" class="alert alert-success" role="alert"/>
-                <div id="file-delete-msg" th:if="${deleteSuccess}" th:text="${deleteSuccess}" class="alert alert-success" role="alert"/>
+                <div id="file-delete-msg" th:if="${fileDeleteSuccess}" th:text="${fileDeleteSuccess}" class="alert alert-success" role="alert"/>
                 <div id="file-error-msg" th:if="${fileError}" th:text="${fileError}" class="alert alert-danger" role="alert"/>
                 <form th:action="@{/upload-file}" enctype="multipart/form-data" method="POST">
                     <div class="container">
@@ -76,10 +76,10 @@
                         <tbody>
                         <tr th:each="file : ${files}">
                             <td>
-                                <a target="_blank" class="btn btn-success" th:href="@{/file/{fileId}(fileId=${file.fileId})}">
+                                <a target="_blank" class="btn btn-success" th:href="@{/file/{fileId}(fileId=${file})}">
                                     View
                                 </a>
-                                <a class="btn btn-danger" th:href="@{/file-delete/{fileId}(fileId=${file.fileId})}">
+                                <a class="btn btn-danger" th:href="@{/file/delete/{fileId}(fileId=${file})}">
                                     Delete
                                 </a>
                             </td>
