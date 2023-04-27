@@ -11,14 +11,14 @@ import java.util.List;
 
 @Mapper
 public interface FileMapper {
-    @Select("INSERT INTO FILE (filename, contenttype, filesize, userid, filedata) VALUES " +
+    @Select("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) VALUES " +
             "(#{file.fileName}, #{file.contentType}, #{file.fileSize}, #{file.userId}, #{file.fileData})")
     Integer save(@Param("file")File file);
 
-    @Select("SELECT * FROM FILE WHERE userid = #{userId}")
+    @Select("SELECT * FROM FILES WHERE userid = #{userId}")
     List<File> findFilesByUserId(@Param("userId") Integer userId);
 
-    @Delete("DELETE FROM FILE WHERE fileid = #{fileId}")
+    @Delete("DELETE FROM FILES WHERE fileid = #{fileId}")
     void deleteById(@Param("fileId") Integer fileId);
 
     @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
